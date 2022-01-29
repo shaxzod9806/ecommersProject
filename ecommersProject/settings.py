@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'index.apps.IndexConfig',
     'utilits.apps.UtilitsConfig',
     'seller',
-    'ordering.apps.OrderConfig',
+    'ordering',
     'customer',
 ]
 REST_FRAMEWORK = {

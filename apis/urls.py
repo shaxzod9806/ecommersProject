@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import BrandAPI,CategoryAPI
+from apis.views import BrandAPI,CategoryAPI
 
 urlpatterns = [
     path('brands/', BrandAPI.as_view(), name='product_brands'),
