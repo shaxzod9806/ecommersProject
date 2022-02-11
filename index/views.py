@@ -96,7 +96,6 @@ class VerifyUser(APIView):
                 'verification_code': openapi.Schema(type=openapi.TYPE_INTEGER, description='The desc'),
             }
         ))
-    # @swagger_auto_schema(manual_parameters=[user_id, verification_code])
     def post(self, request):
         user_id = request.GET.get('user_id')
         verification_code = request.GET.get('verification_code')
@@ -105,9 +104,8 @@ class VerifyUser(APIView):
         if user_itself.is_active:
             print('user is alredy activated')
             return Response('user is alredy activated')
-        if int(verification_code) == int(user_itself.activation_code):
-            user_itself.is_active = True
-            user_itself.save()
-            return Response('user is successfully activated')
-        else:
+        if int(verification_code) != int(user_itself.activation_code):
             return Response('activation_code is wrong')
+        user_itself.is_active = True
+        user_itself.save()
+        return Response('user is successfully activated')

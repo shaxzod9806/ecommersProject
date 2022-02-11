@@ -37,12 +37,10 @@ class CategorySerializerUz(serializers.ModelSerializer):
         fields = '__all__'
 
     def description_uz(self, obj):
-        description = obj.description_uz
-        return description
+        return obj.description_uz
 
     def name_uz(self, obj):
-        name = obj.name_uz
-        return name
+        return obj.name_uz
 
     def get_photo_url(self, obj):
         request = self.context.get('request')

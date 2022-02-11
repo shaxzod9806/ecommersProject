@@ -34,11 +34,10 @@ class BrandAPI(APIView):
     )
     def post(self, request):
         serializer = BrandSerializer(data=request.data, many=False, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
+        if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     brand_id = openapi.Parameter(
         'brand_id', in_=openapi.IN_FORM,
@@ -51,11 +50,10 @@ class BrandAPI(APIView):
         brand_id = request.data['brand_id']
         brand = Brand.objects.get(id=int(brand_id))
         serializer = BrandSerializer(brand, many=False, data=request.data, context={"request": request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
+        if not serializer.is_valid():
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(manual_parameters=[brand_id, param_config], parser_classes=parser_classes)
     def delete(self, request):
@@ -91,11 +89,10 @@ class CategoryAPI(APIView):
     def post(self, request):
 
         serializer = CategorySerializer(data=request.data, many=False)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
+        if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     category_id = openapi.Parameter(
         'category_id', in_=openapi.IN_FORM,
@@ -109,11 +106,10 @@ class CategoryAPI(APIView):
         category_id = request.data['category_id']
         category = Category.objects.get(id=int(category_id))
         serializer = CategorySerializer(category, many=False, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
+        if not serializer.is_valid():
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(manual_parameters=[category_id, param_config], parser_classes=parser_classes)
     def delete(self, request):
