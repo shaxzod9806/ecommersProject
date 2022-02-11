@@ -37,11 +37,10 @@ class OrderApi(APIView):
     )
     def post(self, request):
         serializer = OrderSerializer(data=request.data, many=False)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
+        if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     order_id = openapi.Parameter(
         'order_id', in_=openapi.IN_FORM,
@@ -54,11 +53,10 @@ class OrderApi(APIView):
         order_id = request.data['order_id']
         order = Order.objects.get(id=int(order_id))
         serializer = OrderSerializer(order, many=False, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
+        if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(manual_parameters=[param_config, order_id], parser_classes=parser_classes)
     def delete(self, request):
